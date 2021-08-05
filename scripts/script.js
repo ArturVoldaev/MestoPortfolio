@@ -1,51 +1,42 @@
-let openButtonClick = document.querySelector(".user__edit");
-let PopUp = document.querySelector(".popup");
-let closeButtonClick = document.querySelector(".popup__close");
-let formElement = document.querySelector(".form");
-let nameInput = document.getElementById('name__form');
-let jobInput = document.getElementById('profession__form');
-let po = document.querySelector(".user__name");
-let op = document.querySelector(".user__profession");
-let submit = document.querySelector(".form");
-let addButon = document.querySelector(".user__add-btn");
-let PopUpAddButon = document.querySelector(".popup-add");
-let CloseAddButton = document.querySelector(".popup-add__close");
+import { Card } from "./card.js";
+import { FormValidator } from "./formValidator.js";
 
-function openAddButton () {
-  PopUpAddButon.classList.toggle("popup-add_non");
-}
-function closeAddButton () {
-  PopUpAddButon.classList.remove("popup-add_non");
-}
+const buttonEdit = document.querySelector(".user__edit");
+const popupProfile = document.querySelector("#editProfile");
+const editPopup = document.querySelector(".popup_type_edit-profile");
+const buttonEditCross = editPopup.querySelector(".popup__close");
+const nameInput = document.querySelector('.form__style_type_name');
+const jobInput = document.querySelector('.form__style_type_profession');
+const fieldName = document.querySelector(".user__name");
+const fieldProfession = document.querySelector(".user__profession");
+const formEditProrile = document.querySelector(".form_type_edit-profile");
+const buttonNewCard = document.querySelector(".user__add-btn");
+const popupNewCard = document.querySelector("#addButton");
+const popupNewPlace = document.querySelector(".popup_type_add-place")
+const buttonNewCardCross = popupNewPlace.querySelector(".popup__close");
+const buttonNewCardCreate = document.querySelector("#buttonNewPlace");
+const placePage = document.querySelector('.elements__place'); // место для вставки заготовок
+const fieldPlace = document.getElementById("NewPlace");// поле ввода нового места
+const fieldUrl = document.getElementById("NewPicture");// адрес новой картинки
+const buttonSubmitCreation = document.querySelector("#create");
+const inputProfile = document.getElementById("proFile");
+const popupImg = document.getElementById("image");
+const bigImgPopup = document.querySelector(".popup_type_big-img");
+const buttonImgCross = bigImgPopup.querySelector(".popup__close");
+const formNewPlace = document.querySelector(".form_type_add-place")
+const popupAddPlace = document.querySelector(".popup_type_add-place")
 
-function open () {
-  nameInput.value = po.textContent;
-  jobInput.value = op.textContent;
-  PopUp.classList.toggle("popup_non");
-}
+const configSelectors = {
+  formSelector: ".form",
+  inputSelector: ".form__style",
+  submitButtonSelector: ".button-save",
+  inputErrorClass: ".form__style_type_error",
+  errorActiveClass: ".form__style-error_active",
+};
 
-function close () {
-  PopUp.classList.remove("popup_non");
-}
-/*let edit1 = document.querySelector(".user__name");*/
-/*let input1 = document.getElementById('name__form');*/
-/*let edit2 = document.querySelector(".user__profession");*/
-/*let input2 = document.getElementById('profession__form');*/
+const formProfile = new FormValidator(configSelectors, inputProfile);
+const formCardAdd = new FormValidator(configSelectors, buttonNewCardCreate);
 
-function formSubmitHandler (ev) {
-  ev.preventDefault();
-  po.textContent = nameInput.value;
-  op.textContent = jobInput.value;
-  close ()
-}
-
-submit.addEventListener('submit', formSubmitHandler);
-openButtonClick.addEventListener("click" , open);
-closeButtonClick.addEventListener("click" , close);
-addButon.addEventListener("click" , openAddButton);
-CloseAddButton.addEventListener("click" , closeAddButton);
-
-// вывод массива
 const initialCards = [
   {
     name: 'Архыз',
@@ -73,70 +64,102 @@ const initialCards = [
   }
 ];
 
-const placeTemplate = document.querySelector("#user").content; // наша заготовка
-const OnPage = document.querySelector('.elements__place'); // место для вставки заготовок
-const userElement = placeTemplate.querySelector('.element').cloneNode(true);// создаем клона
-
-
-initialCards.forEach(function (element) {
-  const userElement = placeTemplate.querySelector('.element').cloneNode(true);// создаем клона
-  userElement.querySelector('.element__name').textContent = element.name; // присваеваем значение name
-  userElement.querySelector('.element__img').src = element.link;//присваеваем значение link
-  const ButtonLike = userElement.querySelector(".element__like");// вытаскиваем кнопку лайк
-  ButtonLike.addEventListener("click", addLike);
-  //удаление
-  const deleteButton = userElement.querySelector('.element__trash');// выберем кнопку удаления
-  function del (ev) {
-    ev.preventDefault();
-    const listItem = deleteButton.closest('.element');
-    listItem.remove();
-  }
-  // добавим обработчик
-  deleteButton.addEventListener('click', del);
-
-  OnPage.append(userElement);//добовляем на страницу
+initialCards.forEach((initialCards) => {
+  const arrayCards = new Card(initialCards, '#user');
+  const cardElem = arrayCards.createCard()
+  openImage(cardElem)
+  addCard(cardElem)
 });
 
-function addPlace() {
-  const placeTemplate = document.querySelector("#user").content; // наша заготовка
-  const OnPage = document.querySelector('.elements__place'); // место для вставки заготовок
-  const userElement = placeTemplate.querySelector('.element').cloneNode(true);// создаем клона
-  const Name = document.getElementById('NewPlace');
-  const link = document.getElementById('NewPicture');
-  userElement.querySelector('.element__name').textContent = Name.value; // присваеваем значение name
-  userElement.querySelector('.element__img').src = link.value;//присваеваем значение link
-
-  const ButtonLike = userElement.querySelector(".element__like");// вытаскиваем кнопку лайк
-  ButtonLike.addEventListener("click", addLike);
-
-  const deleteButton = userElement.querySelector('.element__trash');// выберем кнопку удаления
-  function del (ev) {
-    ev.preventDefault();
-    const listItem = deleteButton.closest('.element');
-    listItem.remove();
-  }
-  // добавим обработчик
-  deleteButton.addEventListener('click', del);
-  closeAddButton ();
-  OnPage.append(userElement);
+function closePopByMouse () {
+  const popupArray = Array.from(document.querySelectorAll(".popup"));
+  popupArray.forEach( elem => {
+    elem.addEventListener("click", (ev) => {
+      if (ev.target === ev.currentTarget) {
+        closePopup(ev.target)
+      }
+    })
+  })
 }
-const Create = document.getElementById("create");
-Create.addEventListener("click", addPlace);
-addPlace();
 
-//Добавляем лайки
-  function addLike (evt) {
-      const like = evt.target;
-      like.classList.toggle("element__like_active")
+function closePopByButton (ev) {
+  if (ev.key === "Escape") {
+   closePopup(document.querySelector(".popup_non"))
   }
-
-// Удаление элемента
-const deleteButton = document.querySelector('.element__trash');// выберем кнопку удаления
-
-
-function del () {
-  const listItem = deleteButton.closest('.element');
-  listItem.remove();
 }
-// добавим обработчик
-deleteButton.addEventListener('click', del);
+
+export function openPopup(popup) {
+  popup.classList.add("popup_non");
+  document.addEventListener ("keydown", closePopByButton);
+}
+
+function closePopup(popup) {
+  popup.classList.remove("popup_non");
+  document.removeEventListener('keydown', closePopByButton);
+}
+
+function openPopupProfile () {
+  nameInput.value = fieldName.textContent;
+  jobInput.value = fieldProfession.textContent;
+  openPopup(popupProfile)
+}
+
+function handlFormSubmit (ev) {
+  ev.preventDefault();
+  fieldName.textContent = nameInput.value;
+  fieldProfession.textContent = jobInput.value;
+  closePopup(popupProfile)
+}
+
+function addCard (cardElem) {
+  placePage.prepend(cardElem);
+}
+
+function resetForm (idForm) {
+  idForm.reset()
+}
+
+function openImage(cardElem) {
+  const cardImage = cardElem.querySelector('.element__img');
+  cardImage.addEventListener('click', function() {
+      openPopup(popupImg);
+  });
+}
+
+formEditProrile.addEventListener('submit', handlFormSubmit);
+
+buttonEdit.addEventListener("click" , openPopupProfile);
+
+buttonImgCross.addEventListener('click', function() {
+   closePopup(popupImg)
+});
+
+buttonEditCross.addEventListener("click" , function () {
+  closePopup(popupProfile)
+});
+
+buttonNewCard.addEventListener("click" , function () {
+  openPopup(popupNewCard)
+});
+
+buttonNewCardCross.addEventListener("click" , function() {
+  closePopup(popupNewCard)
+});
+
+buttonNewCardCreate.addEventListener ("submit", function(ev) {
+  ev.preventDefault()
+  const object = {
+    name: fieldPlace.value,
+    link: fieldUrl.value,
+  }
+  const newCardElement = new Card( object, '#user')
+  const newCard = newCardElement.createCard();
+  addCard(newCard)
+  resetForm(formNewPlace)
+  closePopup(popupAddPlace)
+  buttonSubmitCreation.disabled = true;
+});
+
+formProfile.enableValidation();
+formCardAdd.enableValidation();
+closePopByMouse ()

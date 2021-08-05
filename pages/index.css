@@ -41,28 +41,28 @@
 /*подключение блока popup*/
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/__window/popup__window.css);
+@import url(../blocks/popup/__container-img/popup__container-img.css);
+@import url(../blocks/popup/__image-text/popup__image-text.css);
+@import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/_non/popup_non.css);
 @import url(../blocks/popup/__heading/popup__heading.css);
 @import url(../blocks/popup/__close-img/popup__close-img.css);
+@import url(../blocks/popup/_type/popup_type_big-img.css);
+@import url(../blocks/popup/_type/popup_type_add-place.css);
+@import url(../blocks/popup/_type/popup_type_edit-profile.css);
 /*подключение блока button-save*/
 @import url(../blocks/button-save/button-save.css);
 /*подключение блока form*/
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__place/form__place.css);
 @import url(../blocks/form/__style/form__style.css);
-
-
-@import url(../blocks/popup-add/popup-add.css);
-@import url(../blocks/popup-add/_non/popup-add_non.css);
-@import url(../blocks/popup-add/__close/popup-add__close.css);
-
-
-
-
-
-
-
-
-
-
+@import url(../blocks/form/__style/_type/form__style_type_error.css);
+@import url(../blocks/form/__style-profession/form__style-profession.css);
+@import url(../blocks/form/__style-error/form__style-error.css);
+@import url(../blocks/form/__style-error/_active/form__style-error_active.css);
+@import url(../blocks/form/__style/_type/form__style_type_profession.css);
+@import url(../blocks/form/__style/_type/form__style_type_link.css);
+@import url(../blocks/form/__style/_type/form__style_type_name.css);
+@import url(../blocks/form/_type/form_type_add-place.css);
+@import url(../blocks/form/_type/form_type_edit-profile.css);
